@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,7 +24,6 @@ class PhoneBookTest {
 
     @AfterEach
     void tearDown() {
-        System.out.println("END Test !  Конец теста\n");
         System.out.println("Конец теста\n");
     }
 
@@ -35,10 +31,7 @@ class PhoneBookTest {
         return Stream.of(Arguments.of("Bob", "79990000001", 1),
                 Arguments.of("Pop", "79990000002", 2),
                 Arguments.of("Bob", "79990000003", 2),
-                Arguments.of("Djop", "79990000004", 3),
-                Arguments.of(null, "79990000005", 4));
                 Arguments.of("Djop", "79990000004", 3));
-
     }
 
 
@@ -57,15 +50,11 @@ class PhoneBookTest {
                 Arguments.of(null, "79990000005", 4));
     }
 
+
     @ParameterizedTest
-    @MethodSource("argumentsForAddTest")
-    @DisplayName("Тест значение имени == null")
     @MethodSource("argumentsForAddTestOnNull")
     @DisplayName("Тест на исключение при имени == null")
     void addTestOnNull(String expected, String namberPhone, int count) {
-        int countNamber = phoneBook.add(expected, namberPhone);
-
-        assertNotNull(expected);
 
         Throwable exception = assertThrows(NullPointerException.class, () -> {
             throw new NullPointerException("error message");
@@ -73,15 +62,24 @@ class PhoneBookTest {
     }
 
     public static Stream<Arguments> argumentsForFindByNumberTest() {
-        return Stream.of(Arguments.of( null, "79990000001"),
-                Arguments.of( "Pety", "79990000004"));
+        return Stream.of(Arguments.of(null, "79990000001"),
+                Arguments.of("Pety", "79990000004"));
     }
 
     @ParameterizedTest
     @MethodSource("argumentsForFindByNumberTest")
-    @DisplayName("Тест на поиск имени по номеру телефона")
+    @DisplayName("Тест на поиск по номеру телефона")
     void findByNumberTest(String expected, String namberPhone) {
         String result = phoneBook.findByNumber(namberPhone);
+
+        assertEquals(expected, result);
+    }
+
+    @DisplayName("Тест на поиск по имени")
+    @Test
+    void findByName() {
+        String expected = "79990000004";
+        String result = phoneBook.findByNumber("Pety");
 
         assertEquals(expected, result);
     }

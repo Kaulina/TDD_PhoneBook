@@ -17,6 +17,7 @@ public class PhoneBook {
         return INSTANCE;
     }
 
+
     public int add(String name, String namberPhone) {
         if (name == null) {
             throw new NullPointerException("Значение в имени - Null не допустимо ");
@@ -28,11 +29,10 @@ public class PhoneBook {
     }
 
     public String findByNumber(String namberPhone) {
-        String s =  book.entrySet().stream()
+        return book.entrySet().stream()
                 .filter(b -> b.getValue().equals(namberPhone))
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElse(null);
-        return  s;
     }
 }
