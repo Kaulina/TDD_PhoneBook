@@ -71,4 +71,20 @@ class PhoneBookTest {
             throw new NullPointerException("error message");
         });
     }
+
+    public static Stream<Arguments> argumentsForFindByNumberTest() {
+        return Stream.of(Arguments.of("Bob", "79990000001"),
+                Arguments.of("Pop", "79990000002"),
+                Arguments.of("Bob", "79990000003"),
+                Arguments.of("Djop", "79990000004"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("argumentsForFindByNumberTest")
+    @DisplayName("Тест на поиск имени по номеру телефона")
+    void findByNumberTest(String expected, String namberPhone) {
+        String result = phoneBook.findByNumber(namberPhone);
+
+        assertEquals(expected, result);
+    }
 }
