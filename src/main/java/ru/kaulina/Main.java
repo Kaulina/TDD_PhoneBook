@@ -8,8 +8,21 @@ public class Main {
 
     public static void main(String[] args) {
         PhoneBook phoneBook = PhoneBook.getINSTANCE();
-        Map<String, String> book = new TreeMap<>();
+        book = new TreeMap<>();
+        book.put("Pop", "79990000002");
+        book.put("Bob", "79990000003");
+        book.put("Djop", "79990000004");
 
-        book.put(null, "79990000001");
+        String s =
+                rrrr("79990000002");
+        System.out.println(s);
+    }
+
+    public static String rrrr(String n) {
+        return book.entrySet().stream()
+                .filter(b -> b.getValue().equals(n))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
     }
 }
