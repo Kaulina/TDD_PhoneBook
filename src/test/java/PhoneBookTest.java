@@ -31,10 +31,10 @@ class PhoneBookTest {
     }
 
     public static Stream<Arguments> argumentsForAddTest() {
-        return Stream.of(Arguments.of("Bob", "79990000001", 1),
-                Arguments.of("Pop", "79990000002", 2),
-                Arguments.of("Bob", "79990000003", 2),
-                Arguments.of("Djop", "79990000004", 3));
+        return Stream.of(Arguments.of("Any", "79990000009", 1),
+                Arguments.of("Vova", "79990000008", 2),
+                Arguments.of("Any", "79990000005", 2),
+                Arguments.of("Bob", "79990000006", 3));
     }
 
 
@@ -57,22 +57,23 @@ class PhoneBookTest {
     @ParameterizedTest
     @MethodSource("argumentsForAddTestOnNull")
     @DisplayName("Тест на исключение при имени == null")
-    void addTestOnNull(String expected, String namberPhone, int count) {
+    void addTestOnNull(String name, String namberPhone, int count) {
 
         Throwable exception = assertThrows(NullPointerException.class, () -> {
+            int countNamber = phoneBook.add(name, namberPhone);
             throw new NullPointerException("error message");
         });
     }
 
     public static Stream<Arguments> argumentsForFindByNumberTest() {
-        return Stream.of(Arguments.of(null, "79990000001"),
-                Arguments.of("Pety", "79990000004"));
+        return Stream.of(Arguments.of( "Any", "79990000009"),
+                Arguments.of(null, "79990000004"));
     }
 
     @ParameterizedTest
     @MethodSource("argumentsForFindByNumberTest")
     @DisplayName("Тест на поиск по номеру телефона")
-    void findByNumberTest(String expected, String namberPhone) {
+    void findByNumberTest( String expected, String namberPhone) {
         String result = phoneBook.findByNumber(namberPhone);
 
         assertEquals(expected, result);
